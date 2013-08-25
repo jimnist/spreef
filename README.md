@@ -21,7 +21,7 @@ example rails 3.2 app integrating spree 2.0 and refinerycms 2.1
 
 ### app creation steps
 run some commands
-```
+```sh
 $ rvm gemset create spree2refinerycms
 $ rvm use 2.0.0
 $ rvm gemset create spree2refinerycms
@@ -42,7 +42,7 @@ change the __Gemfile__ to the following. using a fork of refinerycms that deals 
 conflict in gem requirements for jquery-rails. note this gemfile is using MySQL, adjust if
 you are not.
 
-```
+```ruby
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.14'
@@ -92,31 +92,31 @@ gem 'spree_gateway', :github => 'spree/spree_gateway', :branch => "2-0-stable"
 ```
 
 make sure all those gems work together
-```
+```sh
 $ bundle install
 ```
 
 set up your database.yml and make sure that you can run rails locally. if your db config allows it, run ```rake db:create``` otherwise set up the databases manually.
 
-```
+```sh
 $ rake db:migrate
 $ bundle exec rails s
 ```
 
 install spree and refinery
-```
+```sh
 $ rails g spree:install --migrate=false --sample=false --seed=false
 $ rails generate refinery:cms --fresh-installation --skip-db
 $ rails g spree_i18n:install
 ```
 
 check your database.yml settings and peruse the sample files that refinery set up for us, but delete them once yours is set up
-```
+```sh
 $ rm config/database.yml.mysql config/database.yml.postgresql config/database.yml.sqlite3
 ```
 
 change the order of Engine route mounting in __config/routes.rb__ by making the top few lines (after the very first line) read like this:
-```
+```ruby
   # This line mounts Spree's routes at the root of your application.
   # This means, any requests to URLs such as /products, will go to Spree::ProductsController.
   # If you would like to change where this engine is mounted, simply change the :at option to something different.
@@ -134,18 +134,18 @@ change the order of Engine route mounting in __config/routes.rb__ by making the 
 ```
 
 add spree devise authentication by adding the following line to your __Gemfile__
-```
+```ruby
 gem 'spree_auth_devise', github: 'spree/spree_auth_devise', branch: '2-0-stable'
 ```
 
 install the gem
-```
+```sh
 $ bundle install
 ```
 
 
 change spree to use the devise user by setting __Spree.user_class__ in __config/initializers/spree.rb__
-```
+```ruby
 Spree.user_class = "Spree::User"
 ```
 
@@ -155,16 +155,16 @@ $ rake railties:install:migrations db:migrate db:seed
 ```
 
 optionally load spree_sample data - NOTE the images that are put in the tree are ignored in the repo. you will want to run this again if you have forked the repo.
-```
+```sh
 $ rake spree_sample:load
 ```
 
-```
+```sh
 $ rm public/index.html
 ```
 
 monkey patch for __will_paginate__ goes in __config/initializers/will_paginate.rb__
-```
+```ruby
 if defined?(WillPaginate)
   module WillPaginate
     module ActiveRecord
