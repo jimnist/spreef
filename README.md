@@ -106,6 +106,7 @@ gem 'spree_auth_devise', github: 'spree/spree_auth_devise', branch: '2-0-stable'
 $ bundle update
 $ rails g spree:install --migrate=false --sample=false --seed=false
 $ rails g spree_i18n:install
+   Would you like to run the migrations now? [Y/n] n
 ```
 
 change spree to use the devise user by setting __Spree.user_class__ in __config/initializers/spree.rb__
