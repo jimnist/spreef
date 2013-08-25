@@ -93,8 +93,8 @@ gem 'awesome_nested_set', '2.1.5'
 # gem 'debugger'
 
 # using a fork of refinerycms that resolves the conflict between jquery-rails in refinery and spree
-gem 'refinerycms', :github => 'ngn33r/refinerycms', :branch => '2-1-stable'
-gem 'refinerycms-i18n', :git => 'git://github.com/refinery/refinerycms-i18n.git', :branch => '2-1-stable'
+#gem 'refinerycms', :github => 'ngn33r/refinerycms', :branch => '2-1-stable'
+#gem 'refinerycms-i18n', :git => 'git://github.com/refinery/refinerycms-i18n.git', :branch => '2-1-stable'
 
 gem 'spree', :github => 'spree/spree', :branch => "2-0-stable"
 gem 'spree_i18n', :github => 'spree/spree_i18n', :branch => "2-0-stable"
@@ -130,7 +130,14 @@ $ rm public/index.html
 
 #### add refinery
 
+uncomment the refinery gems in the Gemfile
+```ruby
+gem 'refinerycms', :github => 'ngn33r/refinerycms', :branch => '2-1-stable'
+gem 'refinerycms-i18n', :git => 'git://github.com/refinery/refinerycms-i18n.git', :branch => '2-1-stable'
+```
+
 ```sh
+$ bundle install
 $ rails generate refinery:cms --fresh-installation --skip-db
 ```
 
