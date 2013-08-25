@@ -19,18 +19,38 @@ example rails 3.2 app integrating spree 2.0 and refinerycms 2.1
 * review app/assets/stylesheets/application.css - move that code?
 * create a pull request for refinerycms to be compatible with spree
 
-### app creation steps
+## app creation steps
+
+### set up rails
+
 run some commands
 ```sh
-$ rvm gemset create spree2refinerycms
+$ rvm gemset create spreef
 $ rvm use 2.0.0
-$ rvm gemset create spree2refinerycms
-$ rvm gemset use spree2refinerycms
+$ rvm gemset create spreef
+$ rvm gemset use spreef
 $ gem install rails -v=3.2.13
-$ rails new spree2refinerycms
-$ cd spree2refinerycms
-$ rvm --create --ruby-version use ruby-2.0.0-p247@spree2refinerycms
+$ rails new spreef
+$ cd spreef
+$ rvm --create --ruby-version use ruby-2.0.0-p247@spreef
 $ rails new .
+```
+
+make sure all those gems work together
+```sh
+$ bundle install
+```
+
+set up your database.yml and make sure that you can run rails locally. if your db config allows it, run ```rake db:create``` otherwise set up the databases manually.
+
+```sh
+$ rake db:migrate
+$ bundle exec rails s
+```
+
+### install spree
+
+```sh
 $ gem install spree_cmd
 $ spree install
   Would you like to install the default gateways? (Recommended) (yes/no) [yes] yes
@@ -38,17 +58,13 @@ $ spree install
   Would you like to run the migrations? (yes/no) [yes] no
 ```
 
-change the __Gemfile__ to the following. using a fork of refinerycms that deals with the
-conflict in gem requirements for jquery-rails. note this gemfile is using MySQL, adjust if
+change the __Gemfile__ to the following. this has the spree and refinery gems that we'll be using. this uses a fork of refinerycms that deals with the conflict in gem requirements for jquery-rails. note this gemfile is using MySQL, adjust if
 you are not.
 
 ```ruby
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.14'
-
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'mysql2'
 
@@ -89,30 +105,38 @@ gem 'refinerycms-i18n', :git => 'git://github.com/refinery/refinerycms-i18n.git'
 gem 'spree', :github => 'spree/spree', :branch => "2-0-stable"
 gem 'spree_i18n', :github => 'spree/spree_i18n', :branch => "2-0-stable"
 gem 'spree_gateway', :github => 'spree/spree_gateway', :branch => "2-0-stable"
+gem 'spree_auth_devise', github: 'spree/spree_auth_devise', branch: '2-0-stable'
 ```
 
-make sure all those gems work together
 ```sh
 $ bundle install
-```
-
-set up your database.yml and make sure that you can run rails locally. if your db config allows it, run ```rake db:create``` otherwise set up the databases manually.
-
-```sh
-$ rake db:migrate
-$ bundle exec rails s
-```
-
-install spree and refinery
-```sh
 $ rails g spree:install --migrate=false --sample=false --seed=false
-$ rails generate refinery:cms --fresh-installation --skip-db
 $ rails g spree_i18n:install
 ```
 
-check your database.yml settings and peruse the sample files that refinery set up for us, but delete them once yours is set up
+change spree to use the devise user by setting __Spree.user_class__ in __config/initializers/spree.rb__
+```ruby
+Spree.user_class = "Spree::User"
+```
+
+run the migrations, seed the database and . you will be asked to create the __admin__ user somewhere in there.
 ```sh
-$ rm config/database.yml.mysql config/database.yml.postgresql config/database.yml.sqlite3
+$ rake railties:install:migrations db:migrate db:seed
+```
+
+optionally load spree_sample data - NOTE the images that are put in the tree are ignored in the repo. you will want to run this again if you have forked the repo.
+```sh
+$ rake spree_sample:load
+```
+
+```sh
+$ rm public/index.html
+```
+
+#### add refinery
+
+```sh
+$ rails generate refinery:cms --fresh-installation --skip-db
 ```
 
 change the order of Engine route mounting in __config/routes.rb__ by making the top few lines (after the very first line) read like this:
@@ -130,37 +154,6 @@ change the order of Engine route mounting in __config/routes.rb__ by making the 
   #
   # We ask that you don't use the :as option here, as Refinery relies on it being the default of "refinery"
   mount Refinery::Core::Engine, :at => '/'
-
-```
-
-add spree devise authentication by adding the following line to your __Gemfile__
-```ruby
-gem 'spree_auth_devise', github: 'spree/spree_auth_devise', branch: '2-0-stable'
-```
-
-install the gem
-```sh
-$ bundle install
-```
-
-
-change spree to use the devise user by setting __Spree.user_class__ in __config/initializers/spree.rb__
-```ruby
-Spree.user_class = "Spree::User"
-```
-
-run the migrations, seed the database and . you will be asked to create the __admin__ user somewhere in there.
-```
-$ rake railties:install:migrations db:migrate db:seed
-```
-
-optionally load spree_sample data - NOTE the images that are put in the tree are ignored in the repo. you will want to run this again if you have forked the repo.
-```sh
-$ rake spree_sample:load
-```
-
-```sh
-$ rm public/index.html
 ```
 
 monkey patch for __will_paginate__ goes in __config/initializers/will_paginate.rb__
@@ -176,6 +169,12 @@ if defined?(WillPaginate)
   end
 end
 ```
+
+check your database.yml settings and peruse the sample files that refinery set up for us, but delete them once yours is set up
+```sh
+$ rm config/database.yml.mysql config/database.yml.postgresql config/database.yml.sqlite3
+```
+
 
 next: set up refinery to use spree users?? or not.
 
