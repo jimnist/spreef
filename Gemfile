@@ -1,26 +1,23 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.13'
-
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
+gem 'rails', '3.2.14'
 
 gem 'mysql2'
-
 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
-
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
-
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'
+gem 'jquery-rails', '~> 3.0.0'
+gem 'jquery-ui-rails', '~> 4.0.0'
+
+gem 'awesome_nested_set', '2.1.5'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -36,3 +33,12 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'debugger'
+
+# using a fork of refinerycms that resolves the conflict between jquery-rails in refinery and spree
+gem 'refinerycms', :github => 'ngn33r/refinerycms', :branch => '2-1-stable'
+gem 'refinerycms-i18n', :git => 'git://github.com/refinery/refinerycms-i18n.git', :branch => '2-1-stable'
+
+gem 'spree', :github => 'spree/spree', :branch => "2-0-stable"
+gem 'spree_i18n', :github => 'spree/spree_i18n', :branch => "2-0-stable"
+gem 'spree_gateway', :github => 'spree/spree_gateway', :branch => "2-0-stable"
+gem 'spree_auth_devise', github: 'spree/spree_auth_devise', branch: '2-0-stable'

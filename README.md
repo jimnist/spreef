@@ -29,7 +29,7 @@ $ rvm gemset create spreef
 $ rvm use 2.0.0
 $ rvm gemset create spreef
 $ rvm gemset use spreef
-$ gem install rails -v=3.2.13
+$ gem install rails -v=3.2.14
 $ cd spreef
 $ rvm --create --ruby-version use ruby-2.0.0-p247@spreef
 $ rails new .
@@ -47,10 +47,9 @@ __rails_only__ tag taken here.
 
 ```sh
 $ gem install spree_cmd
-$ spree install
-  Would you like to install the default gateways? (Recommended) (yes/no) [yes] yes
-  Would you like to install the default authentication system? (yes/no) [yes] yes
-  Would you like to run the migrations? (yes/no) [yes] no
+$  spree install --version=2.0.5 --skip-install-data
+Would you like to install the default gateways? (Recommended) (yes/no) [yes] yes
+Would you like to install the default authentication system? (yes/no) [yes] yes
 ```
 
 change the __Gemfile__ to the following. this has the spree and refinery gems that we'll be using. this uses a fork of refinerycms that deals with the conflict in gem requirements for jquery-rails. note this gemfile is using MySQL, adjust if
@@ -104,7 +103,7 @@ gem 'spree_auth_devise', github: 'spree/spree_auth_devise', branch: '2-0-stable'
 ```
 
 ```sh
-$ bundle install
+$ bundle update
 $ rails g spree:install --migrate=false --sample=false --seed=false
 $ rails g spree_i18n:install
 ```
