@@ -5,10 +5,10 @@ example rails 3.2 app integrating spree 2.0 and refinerycms 2.1
 
 # THIS IS IN PROGRESS
 
-### branches
-* master - spree with refinery
-* spree_only
+### tags
+these correspond to steps along the way
 * rails_only
+* spree_only
 
 ### adapted from
 * [https://gist.github.com/gnepud/5827411]
@@ -30,23 +30,18 @@ $ rvm use 2.0.0
 $ rvm gemset create spreef
 $ rvm gemset use spreef
 $ gem install rails -v=3.2.13
-$ rails new spreef
 $ cd spreef
 $ rvm --create --ruby-version use ruby-2.0.0-p247@spreef
 $ rails new .
 ```
 
-make sure all those gems work together
-```sh
-$ bundle install
-```
-
 set up your database.yml and make sure that you can run rails locally. if your db config allows it, run ```rake db:create``` otherwise set up the databases manually.
 
 ```sh
-$ rake db:migrate
 $ bundle exec rails s
 ```
+
+__rails_only__ tag taken here.
 
 ### install spree
 
