@@ -36,6 +36,7 @@ gem 'awesome_nested_set', '2.1.5'
 
 # using a fork of refinerycms that resolves the conflict between jquery-rails in refinery and spree
 #gem 'refinerycms', :github => 'ngn33r/refinerycms', :branch => '2-1-stable'
+# this ommits refinerycms-authentication
 gem 'refinerycms', :git => 'git://github.com/ngn33r/refinerycms.git', :branch => '2-1-stable' do
   gem 'refinerycms-core' #You can leave this out if you like. It's a dependency of the other engines.
   gem 'refinerycms-dashboard'
