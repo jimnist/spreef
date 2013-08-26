@@ -195,10 +195,13 @@ run the migrations and seed the database.
 $ rake railties:install:migrations db:migrate db:seed
 ```
 
-run the server locally and test that you can log in to spree (frontend)[http://localhost:3003/] and (backend)[http://localhost:3003/admin] user AND that you can create a refinery user via the (refinery backend)[http://localhost:3003/refinery]
+run the server locally and test that you can log in to spree (frontend)[http://localhost:3003/] and (backend)[http://localhost:3003/admin] user AND that you can create a refinery user via the (refinery backend)[http://localhost:3003/refinery]. for extra credit, create a page in the refinery back end and see that you can browse to it.
 ```sh
 $ rails s -p 3003
 ```
+
+# SCREEEEEEECH
+not working. can't log in to spree.
 
 ### use spree users for refinery authentication
 - - -
