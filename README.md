@@ -50,7 +50,6 @@ $ bundle exec rails s
 __rails_only__ tag taken here.
 
 
-- - -
 ### install spree
 - - -
 
@@ -139,9 +138,7 @@ $ rm public/index.html
 $ rails s -p 3003
 ```
 
-
-- - -
-#### add refinery
+### add refinery
 - - -
 
 uncomment the refinery gems in the Gemfile
@@ -191,8 +188,6 @@ check your database.yml settings and peruse the sample files that refinery set u
 $ rm config/database.yml.mysql config/database.yml.postgresql config/database.yml.sqlite3
 ```
 
-
-- - -
 ### use spree users for refinery authentication
 - - -
 
