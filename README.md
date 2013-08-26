@@ -12,7 +12,7 @@ these correspond to steps along the way
 * rails_only (tag)
 * spree (branch)
 * spree_and_refinery (branch)
-* integrated (branch merged with master)
+* master (branch) integrated spree users with refinery
 
 ### adapted from
 * [https://gist.github.com/gnepud/5827411]
@@ -133,10 +133,10 @@ optionally load spree_sample data - __NOTE__ the images that are put in the tree
 $ rake spree_sample:load
 ```
 
-clean up and test out spree. make sure you can log in as a (frontend)[http://localhost:3003/] and (backend)[http://localhost:3003/admin] user.
+clean up and test out spree. make sure you can log in as a (frontend)[http://localhost:3000/] and (backend)[http://localhost:3000/admin] user.
 ```sh
 $ rm public/index.html
-$ rails s -p 3003
+$ rails s
 ```
 
 ### add refinery
@@ -196,13 +196,13 @@ run the migrations and seed the database.
 $ rake railties:install:migrations db:migrate db:seed
 ```
 
-run the server locally and test that you can log in to spree (frontend)[http://localhost:3003/] and (backend)[http://localhost:3003/admin] user AND that you can create a refinery user via the (refinery backend)[http://localhost:3003/refinery]. for extra credit, create a page in the refinery back end and see that you can browse to it.
+run the server locally and test that you can log in to spree (frontend)[http://localhost:3000/] and (backend)[http://localhost:3000/admin] user AND that you can create a refinery user via the (refinery backend)[http://localhost:3000/refinery]. for extra credit, create a page in the refinery back end and see that you can browse to it.
 ```sh
-$ rails s -p 3003
+$ rails s
 ```
 
 # SCREEEEEEECH
-not working. can't log in to spree.
+not working. can't log in to spree. but really, that's not what i'm looking for. so on to integrating authentication.
 
 ### use spree users for refinery authentication
 - - -
