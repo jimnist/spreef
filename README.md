@@ -7,11 +7,12 @@ ideally, we want to integrate the users, but you COULD run a site with the two u
 
 # THIS IS IN PROGRESS
 
-### tags
+### tags and branches
 these correspond to steps along the way
-* rails_only
-* spree_only
-* spree_and_refinery_users
+* rails_only (tag)
+* spree (branch)
+* spree_and_refinery (branch)
+* integrated (branch merged with master)
 
 ### adapted from
 * [https://gist.github.com/gnepud/5827411]
