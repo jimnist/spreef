@@ -24,8 +24,10 @@ these correspond to steps along the way
 
 ## app creation steps
 
+
 - - -
 ### set up rails
+- - -
 
 run some commands
 ```sh
@@ -47,8 +49,10 @@ $ bundle exec rails s
 
 __rails_only__ tag taken here.
 
+
 - - -
 ### install spree
+- - -
 
 ```sh
 $ gem install spree_cmd
@@ -135,8 +139,10 @@ $ rm public/index.html
 $ rails s -p 3003
 ```
 
+
 - - -
 #### add refinery
+- - -
 
 uncomment the refinery gems in the Gemfile
 ```ruby
@@ -185,8 +191,10 @@ check your database.yml settings and peruse the sample files that refinery set u
 $ rm config/database.yml.mysql config/database.yml.postgresql config/database.yml.sqlite3
 ```
 
+
 - - -
 ### use spree users for refinery authentication
+- - -
 
 
 next: set up refinery to use spree users?? or not.
