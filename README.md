@@ -3,12 +3,15 @@ spreef
 
 example rails 3.2 app integrating spree 2.0 and refinerycms 2.1
 
+ideally, we want to integrate the users, but you COULD run a site with the two user systems.
+
 # THIS IS IN PROGRESS
 
 ### tags
 these correspond to steps along the way
 * rails_only
 * spree_only
+* spree_and_refinery_users
 
 ### adapted from
 * [https://gist.github.com/gnepud/5827411]
@@ -119,14 +122,17 @@ run the migrations, seed the database and . you will be asked to create the __ad
 $ rake railties:install:migrations db:migrate db:seed
 ```
 
-optionally load spree_sample data - NOTE the images that are put in the tree are ignored in the repo. you will want to run this again if you have forked the repo.
+optionally load spree_sample data - __NOTE__ the images that are put in the tree are .gitignored in the repo. you will want to run this again if you have forked this repo.
 ```sh
 $ rake spree_sample:load
 ```
 
+clean up and test out spree. make sure you can log in as a (frontend)[http://localhost:3003/] and (backend)[http://localhost:3003/admin] user.
 ```sh
 $ rm public/index.html
+$ rails s -p 3003
 ```
+
 
 #### add refinery
 
