@@ -7,11 +7,12 @@ ideally, we want to integrate the users, but you COULD run a site with the two u
 
 # THIS IS IN PROGRESS
 
-### tags
+### tags and branches
 these correspond to steps along the way
-* rails_only
-* spree_only
-* spree_and_refinery_users
+* rails_only (tag)
+* spree (branch)
+* spree_and_refinery (branch)
+* integrated (branch merged with master)
 
 ### adapted from
 * [https://gist.github.com/gnepud/5827411]
@@ -187,6 +188,21 @@ check your database.yml settings and peruse the sample files that refinery set u
 ```sh
 $ rm config/database.yml.mysql config/database.yml.postgresql config/database.yml.sqlite3
 ```
+
+comment out the spree __load_seed__ lines in __db/seeds.rb__ since they have already been run.
+
+run the migrations and seed the database.
+```sh
+$ rake railties:install:migrations db:migrate db:seed
+```
+
+run the server locally and test that you can log in to spree (frontend)[http://localhost:3003/] and (backend)[http://localhost:3003/admin] user AND that you can create a refinery user via the (refinery backend)[http://localhost:3003/refinery]. for extra credit, create a page in the refinery back end and see that you can browse to it.
+```sh
+$ rails s -p 3003
+```
+
+# SCREEEEEEECH
+not working. can't log in to spree.
 
 ### use spree users for refinery authentication
 - - -
