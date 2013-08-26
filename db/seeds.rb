@@ -7,8 +7,9 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 
-Spree::Core::Engine.load_seed if defined?(Spree::Core)
-Spree::Auth::Engine.load_seed if defined?(Spree::Auth)
+# once these have been run into the database, comment them out temporarily before new seed data commands are run
+# Spree::Core::Engine.load_seed if defined?(Spree::Core)
+# Spree::Auth::Engine.load_seed if defined?(Spree::Auth)
 
 # Added by Refinery CMS Pages extension
 Refinery::Pages::Engine.load_seed
