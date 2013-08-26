@@ -15,9 +15,9 @@ these correspond to steps along the way
 * master (branch) integrated spree users with refinery
 
 ### adapted from
-* [https://gist.github.com/gnepud/5827411]
-* [http://www.synaptian.com/blog/posts/integrating-refinery-rails-3-2-into-your-existing-rails-app]
-* [http://refinerycms.com/guides/with-an-existing-rails-31-devise-app]
+* https://gist.github.com/gnepud/5827411
+* http://www.synaptian.com/blog/posts/integrating-refinery-rails-3-2-into-your-existing-rails-app
+* http://refinerycms.com/guides/with-an-existing-rails-31-devise-app
 
 ### TODO
 * review app/assets/stylesheets/application.css - move that code?
