@@ -177,15 +177,17 @@ if defined?(WillPaginate)
 end
 ```
 
+```sh
+$ bundle install
+$ rails generate refinery:cms --fresh-installation --skip-db
+```
+
 
 # OLD INSTRUCTIONS
 - - -
 
 
-```sh
-$ bundle install
-$ rails generate refinery:cms --fresh-installation --skip-db
-```
+
 
 change the order of Engine route mounting in __config/routes.rb__ by making the top few lines (after the very first line) read like this:
 ```ruby
