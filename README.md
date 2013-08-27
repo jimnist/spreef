@@ -182,13 +182,6 @@ $ bundle install
 $ rails generate refinery:cms --fresh-installation --skip-db
 ```
 
-
-# OLD INSTRUCTIONS
-- - -
-
-
-
-
 change the order of Engine route mounting in __config/routes.rb__ by making the top few lines (after the very first line) read like this:
 ```ruby
   # This line mounts Spree's routes at the root of your application.
@@ -206,8 +199,6 @@ change the order of Engine route mounting in __config/routes.rb__ by making the 
   mount Refinery::Core::Engine, :at => '/'
 ```
 
-
-
 check your database.yml settings and peruse the sample files that refinery set up for us, but delete them once yours is set up
 ```sh
 $ rm config/database.yml.mysql config/database.yml.postgresql config/database.yml.sqlite3
@@ -217,8 +208,14 @@ comment out the spree __load_seed__ lines in __db/seeds.rb__ since they have alr
 
 run the migrations and seed the database.
 ```sh
-$ rake railties:install:migrations db:migrate db:seed
+$ rake db:migrate db:seed
 ```
+
+# OLD INSTRUCTIONS
+- - -
+
+
+
 
 run the server locally and test that you can log in to spree [frontend](http://localhost:3000/) and [backend](http://localhost:3000/admin] user AND that you can create a refinery user via the [refinery backend](http://localhost:3000/refinery). for extra credit, create a page in the refinery back end and see that you can browse to it.
 ```sh
