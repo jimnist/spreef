@@ -15,9 +15,7 @@ example rails 3.2 app integrating spree 2.0 and refinerycms 2.1
 ## app creation steps
 
 
-- - -
 ### set up rails
-- - -
 
 run some commands
 ```sh
@@ -38,7 +36,6 @@ $ bundle exec rails s
 ```
 
 ### install spree
-- - -
 
 ```sh
 $ gem install spree_cmd
@@ -78,7 +75,6 @@ $ rails s
 ```
 
 ### add refinery
-- - -
 
 uncomment the refinery gems in the Gemfile
 ```ruby
@@ -147,7 +143,6 @@ $ rails s
 ```
 
 ### set up spree users for refinery authentication
-- - -
 
 create a Spree::UserPlugin model by running this and then editing the files a wee bit
 ```sh
