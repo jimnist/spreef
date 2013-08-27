@@ -32,7 +32,7 @@ gem 'awesome_nested_set', '2.1.5'
 # gem 'capistrano'
 
 # To use debugger
-gem 'debugger', :group => :development
+# gem 'debugger', :group => :development
 
 # using a fork of refinerycms that resolves the conflict between jquery-rails in refinery and spree
 # not using refinerycms-authentication
