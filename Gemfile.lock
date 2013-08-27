@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/ngn33r/refinerycms.git
-  revision: 7476a0aa6629a38d579451f3f82fd8d9ca56ea13
+  revision: 19d27ce7f45a7b3197e5a3293c8381622ffcae74
   branch: 2-1-stable
   specs:
     refinerycms (2.1.0)

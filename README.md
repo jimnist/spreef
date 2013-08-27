@@ -163,6 +163,20 @@ end
 gem 'refinerycms-i18n', :git => 'git://github.com/refinery/refinerycms-i18n.git', :branch => '2-1-stable'
 ```
 
+add monkey patch for __will_paginate__ goes in __config/initializers/will_paginate.rb__
+```ruby
+if defined?(WillPaginate)
+  module WillPaginate
+    module ActiveRecord
+      module RelationMethods
+        alias_method :per, :per_page
+        alias_method :num_pages, :total_pages
+      end
+    end
+  end
+end
+```
+
 
 # OLD INSTRUCTIONS
 - - -
@@ -190,19 +204,7 @@ change the order of Engine route mounting in __config/routes.rb__ by making the 
   mount Refinery::Core::Engine, :at => '/'
 ```
 
-monkey patch for __will_paginate__ goes in __config/initializers/will_paginate.rb__
-```ruby
-if defined?(WillPaginate)
-  module WillPaginate
-    module ActiveRecord
-      module RelationMethods
-        alias_method :per, :per_page
-        alias_method :num_pages, :total_pages
-      end
-    end
-  end
-end
-```
+
 
 check your database.yml settings and peruse the sample files that refinery set up for us, but delete them once yours is set up
 ```sh
