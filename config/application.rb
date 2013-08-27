@@ -11,7 +11,7 @@ end
 
 module Spreef
   class Application < Rails::Application
-    
+
     config.to_prepare do
       # Load application's model / class decorators
       Dir.glob(File.join(File.dirname(__FILE__), "../app/**/*_decorator*.rb")) do |c|
@@ -71,5 +71,23 @@ module Spreef
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    # stuff for refinerycms authentication
+    # Load files from the lib directory, including subfolders.
+    config.autoload_paths += Dir["#{config.root}/lib/**/"]
+    config.before_initialize do
+      require 'refinery_patch'
+      require 'restrict_refinery_to_refinery_users'
+    end
+
+    extend Refinery::Engine
+    after_inclusion do
+      [::ApplicationController, ::ApplicationHelper, ::Refinery::AdminController].each do |c|
+        c.send :include, ::RefineryPatch
+      end
+
+      ::Refinery::AdminController.send :include, ::RestrictRefineryToRefineryUsers
+      ::Refinery::AdminController.send :before_filter, :restrict_refinery_to_refinery_users
+    end
   end
 end

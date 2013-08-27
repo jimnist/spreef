@@ -211,68 +211,71 @@ run the migrations and seed the database.
 $ rake db:migrate db:seed
 ```
 
-# OLD INSTRUCTIONS
-- - -
-
-
-
-
-run the server locally and test that you can log in to spree [frontend](http://localhost:3000/) and [backend](http://localhost:3000/admin] user AND that you can create a refinery user via the [refinery backend](http://localhost:3000/refinery). for extra credit, create a page in the refinery back end and see that you can browse to it.
+run the server locally and test that you can log in to spree [frontend](http://localhost:3000/) and [backend](http://localhost:3000/admin]
 ```sh
 $ rails s
 ```
 
-# SCREEEEEEECH
-not working. can't log in to spree. but really, that's not what i'm looking for. so on to integrating authentication.
-
-### use spree users for refinery authentication
+### set up spree users for refinery authentication
 - - -
 
-now we need to:
-* emulate the refinery user model
-* override some refinery functionality
-* initialize a spree user with refinery roles
-
-#### emulate the refinery user model
-- - -
-
-
-
-#### override some refinery functionality
-- - -
-
-much of the overriding is done by adding __config/initializers/refinery/user.rb__ with the content in the file.
-
-we also need to override the refinery admin view to log out with spree
-
+create a Spree::UserPlugin model by running this and then editing the files a wee bit
 ```sh
-$ rake refinery:override view=refinery/_site_bar*
+$ rails g model UserPlugin user_id:integer name:string position:integer
 ```
 
-change the logout link to go to spree in __app/views/refinery/_site_bar.html.erb__
+final files, all of which you will want in your app
+* db/migrate/20130827034717_spree_refinery_user_modifications.rb
+* app/models/spree/refinery_user_plugin.rb
+* app/models/spree/user_decorator.rb
+* app/models/spree/role_decorator.rb
+
+run the migrations
+```sh
+$ rake db:migrate
+```
+
+add these files to your app
+* lib/refinery/refinery_patch.rb
+* lib/refinery/restrict_refinery_to_refinery_users.rb
+* app/decorators/controllers/refinery/admin/base_controller_decorator.rb
+
+add the guts of the following to your __config/application.rb__
 ```ruby
-<%= link_to t('.log_out', site_bar_translate_locale_args), spree.destroy_spree_user_session_path, :id => 'logout' %>
+module ExistingApp
+  class Application < Rails::Application
+    ...
+    # Load files from the lib directory, including subfolders.
+    config.autoload_paths += Dir["#{config.root}/lib/**/"]
+    config.before_initialize do
+      require 'refinery_patch'
+      require 'restrict_refinery_to_refinery_users'
+    end
+
+    extend Refinery::Engine
+    after_inclusion do
+      [::ApplicationController, ::ApplicationHelper, ::Refinery::AdminController].each do |c|
+        c.send :include, ::RefineryPatch
+      end
+
+      ::Refinery::AdminController.send :include, ::RestrictRefineryToRefineryUsers
+      ::Refinery::AdminController.send :before_filter, :restrict_refinery_to_refinery_users
+    end
+  end
+end
 ```
 
-
-#### initialize a spree user with refinery roles
-- - -
-
-add the following lines to __db/seeds.rb__, (temporarily) comment out the ones above that have already been run
-```ruby
-Spree::Role.create(:title => 'Refinery')
-Spree::Role.create(:title => 'Superuser')
-```
-
-load that . .
+set up the spree admin user to be a Refinery Superuser
 ```sh
-$ rake db:seed
+$ rails console
+> u = Spree::User.first
+> u.roles << Role.create(:name=>"Superuser")
+> u.roles << Role.create(:name=>"Refinery")
+> u.save
+> exit
 ```
 
-go into the console and add those roles to the admin user created with the spree installation
+run the server locally and test that you can log in to spree [frontend](http://localhost:3000/) and [backend](http://localhost:3000/admin] user AND that you can create a refinery user via the [refinery backend](http://localhost:3000/refinery). for extra credit, create a page in the refinery back end and see that you can browse to it.
 ```sh
-2.0.0p247 :001 > user = Spree::User.first
-2.0.0p247 :001 > user.roles << Spree::Role.find_by_title('Refinery')
-2.0.0p247 :001 > user.roles << Spree::Role.find_by_title('Superuser')
-2.0.0p247 :001 > user.save
+$ rails s
 ```
