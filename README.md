@@ -104,7 +104,7 @@ gem 'awesome_nested_set', '2.1.5'
 # using a fork of refinerycms that resolves the conflict between jquery-rails in refinery and spree
 # this ommits refinerycms-authentication
 #gem 'refinerycms', :git => 'git://github.com/ngn33r/refinerycms.git', :branch => '2-1-stable' do
-#  gem 'refinerycms-core' #You can leave this out if you like. It's a dependency of the other engines.
+#  gem 'refinerycms-core'
 #  gem 'refinerycms-dashboard'
 #  gem 'refinerycms-images'
 #  gem 'refinerycms-pages'
@@ -150,15 +150,10 @@ $ rails s
 ### add refinery
 - - -
 
-
-
-
-# OLD INSTRUCTIONS
-- - -
 uncomment the refinery gems in the Gemfile
 ```ruby
 gem 'refinerycms', :git => 'git://github.com/ngn33r/refinerycms.git', :branch => '2-1-stable' do
-  gem 'refinerycms-core' #You can leave this out if you like. It's a dependency of the other engines.
+  gem 'refinerycms-core'
   gem 'refinerycms-dashboard'
   gem 'refinerycms-images'
   gem 'refinerycms-pages'
@@ -167,6 +162,11 @@ gem 'refinerycms', :git => 'git://github.com/ngn33r/refinerycms.git', :branch =>
 end
 gem 'refinerycms-i18n', :git => 'git://github.com/refinery/refinerycms-i18n.git', :branch => '2-1-stable'
 ```
+
+
+# OLD INSTRUCTIONS
+- - -
+
 
 ```sh
 $ bundle install
