@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/spree/spree.git
-  revision: bd517ae34905b7416211616b07501a5704484e70
+  revision: c0296f0e56b6bc847d98e6c55676343271ee524f
   branch: 2-0-stable
   specs:
     spree (2.0.5.beta)
@@ -140,7 +140,7 @@ GEM
       json (~> 1.4)
       nokogiri (< 1.6.0)
       uuidtools (~> 2.1)
-    bcrypt-ruby (3.1.1)
+    bcrypt-ruby (3.1.2)
     builder (3.0.4)
     cancan (1.6.10)
     canonical-rails (0.0.3)
