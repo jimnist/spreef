@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/ngn33r/refinerycms.git
-  revision: 15924513df8add712e325958572eabd1412530e8
+  revision: 19d27ce7f45a7b3197e5a3293c8381622ffcae74
   branch: 2-1-stable
   specs:
     refinerycms (2.1.0)
@@ -55,7 +55,7 @@ GIT
 
 GIT
   remote: git://github.com/spree/spree.git
-  revision: 2da2b9b1c7f261b5ea09586f21e1456cbacbb09a
+  revision: b691ddfe5c41a21a308c2cb0472c046c35ba9b8f
   branch: 2-0-stable
   specs:
     spree (2.0.5.beta)
@@ -197,7 +197,7 @@ GEM
       nokogiri (< 1.6.0)
       uuidtools (~> 2.1)
     babosa (0.3.11)
-    bcrypt-ruby (3.1.1)
+    bcrypt-ruby (3.1.2)
     builder (3.0.4)
     cancan (1.6.10)
     canonical-rails (0.0.3)

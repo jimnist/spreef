@@ -3,25 +3,14 @@ spreef
 
 example rails 3.2 app integrating spree 2.0 and refinerycms 2.1
 
-ideally, we want to integrate the users, but you COULD run a site with the two user systems.
-
-# THIS IS IN PROGRESS
-
-### tags and branches
-these correspond to steps along the way
-* rails_only (tag)
-* spree (branch)
-* spree_and_refinery (branch)
-* master (branch) integrated spree users with refinery
-
 ### adapted from
+* http://refinerycms.com/guides/with-an-existing-rails-31-devise-app
 * https://gist.github.com/gnepud/5827411
 * http://www.synaptian.com/blog/posts/integrating-refinery-rails-3-2-into-your-existing-rails-app
 * http://refinerycms.com/guides/with-an-existing-rails-31-devise-app
 
 ### TODO
-* review app/assets/stylesheets/application.css - move that code?
-* create a pull request for refinerycms to be compatible with spree
+* create a pull request for refinerycms to be jquery-rails compatible with spree
 
 ## app creation steps
 
@@ -48,9 +37,6 @@ set up your database.yml and make sure that you can run rails locally. if your d
 $ bundle exec rails s
 ```
 
-__rails_only__ tag taken here.
-
-
 ### install spree
 - - -
 
@@ -61,62 +47,7 @@ Would you like to install the default gateways? (Recommended) (yes/no) [yes] yes
 Would you like to install the default authentication system? (yes/no) [yes] yes
 ```
 
-change the __Gemfile__ to the following. this has the spree and refinery gems that we'll be using. this uses a fork of refinerycms that deals with the conflict in gem requirements for jquery-rails. note this gemfile is using MySQL, adjust if
-you are not.
-
-```ruby
-source 'https://rubygems.org'
-
-gem 'rails', '3.2.14'
-
-gem 'mysql2'
-
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer', :platforms => :ruby
-  gem 'uglifier', '>= 1.0.3'
-end
-
-gem 'jquery-rails', '~> 3.0.0'
-gem 'jquery-ui-rails', '~> 4.0.0'
-
-gem 'awesome_nested_set', '2.1.5'
-
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger
-# gem 'debugger'
-
-# using a fork of refinerycms that resolves the conflict between jquery-rails in refinery and spree
-# this ommits refinerycms-authentication
-#gem 'refinerycms', :git => 'git://github.com/ngn33r/refinerycms.git', :branch => '2-1-stable' do
-#  gem 'refinerycms-core' #You can leave this out if you like. It's a dependency of the other engines.
-#  gem 'refinerycms-dashboard'
-#  gem 'refinerycms-images'
-#  gem 'refinerycms-pages'
-#  gem 'refinerycms-resources'
-#end
-#gem 'refinerycms-i18n', :git => 'git://github.com/refinery/refinerycms-i18n.git', :branch => '2-1-stable'
-
-gem 'spree', :github => 'spree/spree', :branch => "2-0-stable"
-gem 'spree_i18n', :github => 'spree/spree_i18n', :branch => "2-0-stable"
-gem 'spree_gateway', :github => 'spree/spree_gateway', :branch => "2-0-stable"
-gem 'spree_auth_devise', github: 'spree/spree_auth_devise', branch: '2-0-stable'
-```
+modify the __Gemfile__ to be just like the one in this app (more or less). this has the spree and refinery gems that we'll be using. this uses my own fork of refinerycms that deals with the conflict in gem requirements for jquery-rails between spree and refinery. it also does not have __refinerycms-authentication__ as a dependncy for __refinerycms-core__. note this gemfile is using MySQL, adjust if you are not.
 
 ```sh
 $ bundle update
@@ -152,13 +83,28 @@ $ rails s
 uncomment the refinery gems in the Gemfile
 ```ruby
 gem 'refinerycms', :git => 'git://github.com/ngn33r/refinerycms.git', :branch => '2-1-stable' do
-  gem 'refinerycms-core' #You can leave this out if you like. It's a dependency of the other engines.
+  gem 'refinerycms-core'
   gem 'refinerycms-dashboard'
   gem 'refinerycms-images'
   gem 'refinerycms-pages'
   gem 'refinerycms-resources'
+  gem 'refinerycms-testing', :group => :test
 end
 gem 'refinerycms-i18n', :git => 'git://github.com/refinery/refinerycms-i18n.git', :branch => '2-1-stable'
+```
+
+add monkey patch for __will_paginate__ goes in __config/initializers/will_paginate.rb__
+```ruby
+if defined?(WillPaginate)
+  module WillPaginate
+    module ActiveRecord
+      module RelationMethods
+        alias_method :per, :per_page
+        alias_method :num_pages, :total_pages
+      end
+    end
+  end
+end
 ```
 
 ```sh
@@ -183,20 +129,6 @@ change the order of Engine route mounting in __config/routes.rb__ by making the 
   mount Refinery::Core::Engine, :at => '/'
 ```
 
-monkey patch for __will_paginate__ goes in __config/initializers/will_paginate.rb__
-```ruby
-if defined?(WillPaginate)
-  module WillPaginate
-    module ActiveRecord
-      module RelationMethods
-        alias_method :per, :per_page
-        alias_method :num_pages, :total_pages
-      end
-    end
-  end
-end
-```
-
 check your database.yml settings and peruse the sample files that refinery set up for us, but delete them once yours is set up
 ```sh
 $ rm config/database.yml.mysql config/database.yml.postgresql config/database.yml.sqlite3
@@ -206,23 +138,75 @@ comment out the spree __load_seed__ lines in __db/seeds.rb__ since they have alr
 
 run the migrations and seed the database.
 ```sh
-$ rake railties:install:migrations db:migrate db:seed
+$ rake db:migrate db:seed
 ```
 
-run the server locally and test that you can log in to spree [frontend](http://localhost:3000/) and [backend](http://localhost:3000/admin] user AND that you can create a refinery user via the [refinery backend](http://localhost:3000/refinery). for extra credit, create a page in the refinery back end and see that you can browse to it.
+run the server locally and test that you can log in to spree [frontend](http://localhost:3000/) and [backend](http://localhost:3000/admin]
 ```sh
 $ rails s
 ```
 
-# SCREEEEEEECH
-not working. can't log in to spree. but really, that's not what i'm looking for. so on to integrating authentication.
-
-### use spree users for refinery authentication
+### set up spree users for refinery authentication
 - - -
 
+create a Spree::UserPlugin model by running this and then editing the files a wee bit
+```sh
+$ rails g model UserPlugin user_id:integer name:string position:integer
+```
 
-next: set up refinery to use spree users?? or not.
+final files, all of which you will want in your app
+* db/migrate/20130827034717_spree_refinery_user_modifications.rb
+* app/models/spree/refinery_user_plugin.rb
+* app/models/spree/user_decorator.rb
+* app/models/spree/role_decorator.rb
 
+run the migrations
+```sh
+$ rake db:migrate
+```
 
+add these files to your app
+* lib/refinery/refinery_patch.rb
+* lib/refinery/restrict_refinery_to_refinery_users.rb
+* app/decorators/controllers/refinery/admin/base_controller_decorator.rb
 
+add the guts of the following to your __config/application.rb__
+```ruby
+module ExistingApp
+  class Application < Rails::Application
+    ...
+    # Load files from the lib directory, including subfolders.
+    config.autoload_paths += Dir["#{config.root}/lib/**/"]
+    config.before_initialize do
+      require 'refinery_patch'
+      require 'restrict_refinery_to_refinery_users'
+    end
 
+    extend Refinery::Engine
+    after_inclusion do
+      [::ApplicationController, ::ApplicationHelper, ::Refinery::AdminController].each do |c|
+        c.send :include, ::RefineryPatch
+      end
+
+      ::Refinery::AdminController.send :include, ::RestrictRefineryToRefineryUsers
+      ::Refinery::AdminController.send :before_filter, :restrict_refinery_to_refinery_users
+    end
+  end
+end
+```
+
+set up the spree admin user to be a Refinery Superuser with some plugins
+```sh
+$ rails console
+> u = Spree::User.first
+> u.roles << Role.create(:name=>"Superuser")
+> u.roles << Role.create(:name=>"Refinery")
+> u.plugins =["refinery_pages","refinery_images"]
+> u.save
+> exit
+```
+
+run the server locally and test that you can log in to spree [frontend](http://localhost:3000/) and [backend](http://localhost:3000/admin] user AND that you can browse to refinery when your are logged in  [refinery backend](http://localhost:3000/refinery).
+```sh
+$ rails s
+```

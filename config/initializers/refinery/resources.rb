@@ -20,7 +20,7 @@ Refinery::Resources.configure do |config|
   # Configure Dragonfly
   # This is where in the middleware stack to insert the Dragonfly middleware
   # config.dragonfly_insert_before = "ActionDispatch::Callbacks"
-  # config.dragonfly_secret = "2a3053fba11c9a1d79ca52bdfee6b2c7d1f30d1ff671cdb9"
+  # config.dragonfly_secret = "830084149f2725e06733616a18ccc85feeade8b96e14e50c"
   # config.dragonfly_url_format = "/system/resources/:job/:basename.:format"
   # config.dragonfly_url_host = ""
   # config.datastore_root_path = "/Users/jim/wrk/truegoods/spreef/public/system/refinery/resources"
