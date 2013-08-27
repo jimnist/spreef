@@ -199,8 +199,8 @@ set up the spree admin user to be a Refinery Superuser with some plugins
 ```sh
 $ rails console
 > u = Spree::User.first
-> u.roles << Role.create(:name=>"Superuser")
-> u.roles << Role.create(:name=>"Refinery")
+> u.roles << Spree::Role.create(:name=>"Superuser")
+> u.roles << Spree::Role.create(:name=>"Refinery")
 > u.plugins =["refinery_pages","refinery_images"]
 > u.save
 > exit
