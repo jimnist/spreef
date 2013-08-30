@@ -10,6 +10,8 @@ example rails 3.2 app integrating spree 2.0 and refinerycms 2.1
 * http://refinerycms.com/guides/with-an-existing-rails-31-devise-app
 
 ### TODO
+* share helpers accross spree and refinery (ApplicationController)
+* test login on refinery
 * create a pull request for refinerycms to be jquery-rails compatible with spree
 
 ## app creation steps
@@ -188,6 +190,17 @@ module ExistingApp
     end
   end
 end
+```
+
+add this to your __app/controllers/application_controller.rb__
+```ruby
+  # include refinerycms and spree helpers so they
+  # are available throughout the application
+  helper Refinery::Core::Engine.helpers
+  include Spree::Core::ControllerHelpers
+  include Spree::BaseHelper
+  helper 'spree/base'
+  helper 'spree/products'
 ```
 
 set up the spree admin user to be a Refinery Superuser with some plugins
