@@ -13,6 +13,7 @@ example rails 3.2 app integrating spree 2.0 and refinerycms 2.1
 * share helpers accross spree and refinery (ApplicationController)
 * test login on refinery
 * create a pull request for refinerycms to be jquery-rails compatible with spree
+* add nested layout strategy
 
 ## app creation steps
 
